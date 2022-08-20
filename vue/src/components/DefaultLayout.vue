@@ -1,13 +1,4 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-	<!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-100">
-    <body class="h-full">
-    ```
-  -->
 	<div class="min-h-full">
 		<Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,20 +13,22 @@
 						</div>
 						<div class="hidden md:block">
 							<div class="ml-10 flex items-baseline space-x-4">
-								<a
+								<router-link
 									v-for="item in navigation"
 									:key="item.name"
-									:href="item.href"
+									:to="item.to"
 									:class="[
-										item.current
-											? 'bg-gray-900 text-white'
-											: 'text-gray-300 hover:bg-gray-700 hover:text-white',
-										'px-3 py-2 rounded-md text-sm font-medium',
+										this.$route.name !== item.to.name
+											? 'text-gray-300 hover:bg-gray-700 hover:text-white'
+											: 'bg-gray-900 text-white ',
+										'block px-3 py-2 rounded-md text-base font-medium',
 									]"
 									:aria-current="
-										item.current ? 'page' : undefined
+										this.$route.name === item.to.name
+											? 'page'
+											: undefined
 									"
-									>{{ item.name }}</a
+									>{{ item.name }}</router-link
 								>
 							</div>
 						</div>
@@ -82,13 +75,14 @@
 											:key="item.name"
 											v-slot="{ active }"
 										>
-											<a
-												:href="item.href"
+											<router-link
+												:to="item.to"
+												@click="item.click"
 												:class="[
 													active ? 'bg-gray-100' : '',
 													'block px-4 py-2 text-sm text-gray-700',
 												]"
-												>{{ item.name }}</a
+												>{{ item.name }}</router-link
 											>
 										</MenuItem>
 									</MenuItems>
@@ -119,19 +113,22 @@
 
 			<DisclosurePanel class="md:hidden">
 				<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-					<DisclosureButton
+					<router-link
 						v-for="item in navigation"
 						:key="item.name"
-						as="a"
-						:href="item.href"
+						:to="item.to"
 						:class="[
-							item.current
-								? 'bg-gray-900 text-white'
-								: 'text-gray-300 hover:bg-gray-700 hover:text-white',
+							this.$route.name !== item.to.name
+								? 'text-gray-300 hover:bg-gray-700 hover:text-white'
+								: 'bg-gray-900 text-white ',
 							'block px-3 py-2 rounded-md text-base font-medium',
 						]"
-						:aria-current="item.current ? 'page' : undefined"
-						>{{ item.name }}</DisclosureButton
+						:aria-current="
+							this.$route.name === item.to.name
+								? 'page'
+								: undefined
+						"
+						>{{ item.name }}</router-link
 					>
 				</div>
 				<div class="pt-4 pb-3 border-t border-gray-700">
@@ -164,13 +161,13 @@
 						</button>
 					</div>
 					<div class="mt-3 px-2 space-y-1">
-						<DisclosureButton
+						<router-link
 							v-for="item in userNavigation"
 							:key="item.name"
-							as="a"
-							:href="item.href"
+							:to="item.to"
+							@click="item.click"
 							class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-							>{{ item.name }}</DisclosureButton
+							>{{ item.name }}</router-link
 						>
 					</div>
 				</div>
@@ -192,23 +189,30 @@ import {
 	MenuItems,
 } from "@headlessui/vue";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-const user = {
-	name: "Tom Cook",
-	email: "tom@example.com",
-	imageUrl:
-		"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+const router = useRouter();
+
+const logout = () => {
+	store.commit("logout");
+	router.push({
+		name: "Login",
+	});
 };
+
 const navigation = [
-	{ name: "Dashboard", href: "#", current: true },
-	{ name: "Team", href: "#", current: false },
-	{ name: "Projects", href: "#", current: false },
-	{ name: "Calendar", href: "#", current: false },
-	{ name: "Reports", href: "#", current: false },
+	{ name: "Dashboard", to: { name: "Dashboard" }, current: true },
+	{ name: "Team", to: { name: "" }, current: false },
+	{ name: "Cliens", to: { name: "" }, current: false },
 ];
 const userNavigation = [
-	{ name: "Your Profile", href: "#" },
-	{ name: "Settings", href: "#" },
-	{ name: "Sign out", href: "#" },
+	{ name: "Your Profile", to: { name: "" } },
+	{ name: "Settings", to: { name: "" } },
+	{ name: "Sign out", to: { name: "" }, click: logout },
 ];
+
+const store = useStore();
+const user = computed(() => store.state.user.data);
 </script>

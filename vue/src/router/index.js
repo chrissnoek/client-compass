@@ -1,8 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import DefaultLayout from "../components/DefaultLayout.vue";
+import ViewHolder from "../views/ViewHolder.vue";
+import PasswordReset from "../views/PasswordReset.vue";
+import SetPassword from "../views/SetPassword.vue";
+import SentPasswordSetMail from "../views/SentPasswordSetMail.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import store from "../store";
 import Dashboard from "../views/Dashboard.vue";
+import ClientsIndex from "../views/clients/Index.vue";
+import ClientsCreate from "../views/clients/Create.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 
@@ -17,6 +23,23 @@ const routes = [
 				path: "/dashboard",
 				name: "Dashboard",
 				component: Dashboard,
+			},
+			{
+				path: "/clients",
+				name: "ClientIndex",
+				component: ViewHolder,
+				children: [
+					{
+						path: "",
+						component: ClientsIndex,
+					},
+
+					{
+						path: "create",
+						name: "ClientCreate",
+						component: ClientsCreate,
+					},
+				],
 			},
 		],
 	},
@@ -36,6 +59,26 @@ const routes = [
 				path: "/register",
 				name: "Register",
 				component: Register,
+			},
+			{
+				path: "/set-password/:token",
+				name: "SetPassword",
+				component: SetPassword,
+			},
+			{
+				path: "/reset-password/:token",
+				name: "ForgotPassword",
+				component: PasswordReset,
+			},
+			{
+				path: "/reset-password/:token",
+				name: "ForgotPassword",
+				component: PasswordReset,
+			},
+			{
+				path: "/sent-password-set-mail",
+				name: "SentPasswordSetMail",
+				component: SentPasswordSetMail,
 			},
 		],
 	},

@@ -1,8 +1,9 @@
 <template>
-	<DefaultPage title="Dashboard"> Content goes here </DefaultPage>
+	<DefaultPage title="Dashboard"> </DefaultPage>
 </template>
 
 <script setup>
+import HelloWorld from "../components/HelloWorld.vue";
 import DefaultPage from "../components/DefaultPage.vue";
 </script>
 

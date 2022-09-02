@@ -9,68 +9,14 @@
 			<h2
 				class="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900"
 			>
-				Register for free
+				Password reset
 			</h2>
-			<p class="mt-2 text-center text-sm text-gray-600">
-				Or
-				{{ " " }}
-				<router-link
-					:to="{ name: 'Login' }"
-					class="font-medium text-indigo-600 hover:text-indigo-500"
-				>
-					login to your account
-				</router-link>
-			</p>
 		</div>
 		<form
 			class="mt-8 bg-white shadow-md rounded-md p-10"
-			@submit="register"
+			@submit="resetPassword"
 		>
 			<div class="rounded-md shadow-sm">
-				<div class="flex justify-center mb-2">
-					<div class="mr-2 w-full">
-						<label for="first_name" class="sr-only"
-							>First name</label
-						>
-						<input
-							v-model="user.first_name"
-							id="first_name"
-							name="first_name"
-							type="text"
-							autocomplete="given-name"
-							required=""
-							class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							placeholder="First name"
-						/>
-					</div>
-					<div class="w-full">
-						<label for="last_name" class="sr-only">Last name</label>
-						<input
-							v-model="user.last_name"
-							id="last_name"
-							name="last_name"
-							type="text"
-							autocomplete="family-name"
-							required=""
-							class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							placeholder="Last name"
-						/>
-					</div>
-				</div>
-				<div class="mb-2">
-					<label for="company_name" class="sr-only"
-						>Company Name</label
-					>
-					<input
-						v-model="user.company_name"
-						id="company_name"
-						name="company_name"
-						type="text"
-						required=""
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						placeholder="Company Name"
-					/>
-				</div>
 				<div class="mb-2">
 					<label for="email" class="sr-only">Email address</label>
 					<input
@@ -84,7 +30,7 @@
 						placeholder="Email address"
 					/>
 				</div>
-				<!-- <div class="mb-2">
+				<div class="mb-2">
 					<label for="password" class="sr-only">Password</label>
 					<input
 						v-model="user.password"
@@ -111,7 +57,7 @@
 						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password confirmation"
 					/>
-				</div> -->
+				</div>
 			</div>
 
 			<div>
@@ -127,7 +73,7 @@
 							aria-hidden="true"
 						/>
 					</span>
-					Sign up
+					Reset Password
 				</button>
 			</div>
 		</form>
@@ -136,25 +82,26 @@
 
 <script setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import store from "../store";
 import { ref } from "vue";
 
 const router = useRouter();
+const route = useRoute();
 
 const user = {
-	first_name: "",
-	last_name: "",
 	email: "",
-	company_name: "",
+	password: "",
+	password_confirmation: "",
+	token: route.params.token,
 };
 
-const register = (ev) => {
+const resetPassword = (ev) => {
 	ev.preventDefault();
 	console.log(user);
-	store.dispatch("register", user).then(() => {
+	store.dispatch("resetPassword", user).then(() => {
 		router.push({
-			name: "SentPasswordSetMail",
+			name: "Dashboard",
 		});
 	});
 };

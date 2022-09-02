@@ -1,132 +1,94 @@
-<!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
-	<!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-50">
-    <body class="h-full">
-    ```
-  -->
-	<div
-		class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-	>
-		<div class="max-w-md w-full space-y-8">
-			<div>
-				<img
-					class="mx-auto h-12 w-auto"
-					src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-					alt="Workflow"
-				/>
-				<h2
-					class="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900"
-				>
-					Sign in to your account
-				</h2>
-				<p class="mt-2 text-center text-sm text-gray-600">
-					Or
-					{{ " " }}
-					<a
-						href="#"
-						class="font-medium text-indigo-600 hover:text-indigo-500"
-					>
-						start your 14-day free trial
-					</a>
-				</p>
-			</div>
-			<form class="mt-8 space-y-6" action="#" method="POST">
-				<input type="hidden" name="remember" value="true" />
-				<div class="rounded-md shadow-sm -space-y-px">
-					<div>
-						<label for="email-address" class="sr-only"
-							>Email address</label
-						>
-						<input
-							id="email-address"
-							name="email"
-							type="email"
-							autocomplete="email"
-							required=""
-							class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							placeholder="Email address"
-						/>
-					</div>
-					<div>
-						<label for="password" class="sr-only">Password</label>
-						<input
-							id="password"
-							name="password"
-							type="password"
-							autocomplete="current-password"
-							required=""
-							class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-							placeholder="Password"
-						/>
-					</div>
-				</div>
-
-				<div class="flex items-center justify-between">
-					<div class="flex items-center">
-						<input
-							id="remember-me"
-							name="remember-me"
-							type="checkbox"
-							class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-						/>
-						<label
-							for="remember-me"
-							class="ml-2 block text-sm text-gray-900"
-						>
-							Remember me
-						</label>
-					</div>
-
-					<div class="text-sm">
-						<a
-							href="#"
-							class="font-medium text-indigo-600 hover:text-indigo-500"
-						>
-							Forgot your password?
-						</a>
-					</div>
-				</div>
-
+	<div>
+		<article>
+			<section :class="animation">
+				<h2>{{ formGroup[formPosition].title }}</h2>
 				<div>
-					<button
-						type="submit"
-						class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+					<div
+						v-for="(field, index) in formGroup[formPosition].fields"
+						:key="'field' + index"
 					>
-						<span
-							class="absolute left-0 inset-y-0 flex items-center pl-3"
-						>
-							<LockClosedIcon
-								class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-								aria-hidden="true"
-							/>
-						</span>
-						Sign in
-					</button>
+						<input type="text" v-model="field.value" required />
+						<label>{{ field.label }}</label>
+					</div>
 				</div>
-			</form>
-		</div>
+				<button
+					v-if="formPosition + 1 < formGroup.length - 1"
+					@click="nextStep"
+				>
+					Next
+				</button>
+				<button v-if="formPosition + 1 === formGroup.length - 1">
+					Enter
+				</button>
+			</section>
+			<footer class="flex">
+				<div
+					:class="[
+						{ 'bg-blue-200 text-blue-500': index === formPosition },
+						'bg-gray-200 text-gray-500 rounded-full p-1 w-1/3 h-1 text-center mr-2 hover:bg-gray-300 hover:text-gray-600 cursor-pointer',
+					]"
+					v-for="(step, index) in formGroup"
+					:key="'step' + index"
+					@click="formPosition = index"
+				></div>
+			</footer>
+		</article>
 	</div>
 </template>
-
-<script setup>
-import { LockClosedIcon } from "@heroicons/vue/solid";
+<script>
+export default {
+	data: () => {
+		return {
+			formPosition: 0,
+			animation: "animate-in",
+			formGroup: [
+				{
+					title: "Personal Details",
+					fields: [
+						{ label: "First Name", value: "" },
+						{ label: "Second Name", value: "" },
+						{ label: "Age", value: "" },
+					],
+				},
+				{
+					title: "Address",
+					fields: [
+						{ label: "City", value: "" },
+						{ label: "Zip Code", value: "" },
+						{ label: "County", value: "" },
+						{ label: "State", value: "" },
+					],
+				},
+				{
+					title: "Academic Details",
+					fields: [
+						{ label: "Academic qualification", value: "" },
+						{ label: "College Attended", value: "" },
+						{ label: "Year of completion", value: "" },
+					],
+				},
+			],
+		};
+	},
+	methods: {
+		nextStep() {
+			this.animation = "animate-out";
+			setTimeout(() => {
+				this.animation = "animate-in";
+				this.formPosition += 1;
+			}, 600);
+		},
+	},
+};
 </script>
+<style>
+.animation-in {
+	transform-origin: left;
+	animation: in 0.6s ease-in-out;
+}
+.animation-out {
+	transform-origin: bottom left;
+	animation: out 0.6s ease-in-out;
+}
+</style>

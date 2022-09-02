@@ -22,10 +22,22 @@
 				</router-link>
 			</p>
 		</div>
-		<form class="mt-8 space-y-6" action="#" method="POST">
+		<form class="mt-8" @submit="login">
+			<div
+				v-if="errorMsg"
+				class="flex items-center justify-between py-3 px-5 bg-red-500 text-white rounded mb-4"
+			>
+				{{ errorMsg }}
+				<span @click="errorMsg = ''">
+					<XIcon
+						class="h-6 w-6 cursor-pointer rounded-full p-1 transition-colors hover:bg-[rgba(0,0,0,0.2)]"
+						aria-hidden="true"
+					/>
+				</span>
+			</div>
 			<input type="hidden" name="remember" value="true" />
-			<div class="rounded-md shadow-sm -space-y-px">
-				<div>
+			<div class="rounded-md shadow-sm -space-y-px mb-4">
+				<div class="mb-2">
 					<label for="email-address" class="sr-only"
 						>Email address</label
 					>
@@ -35,11 +47,12 @@
 						type="email"
 						autocomplete="email"
 						required=""
-						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						v-model="user.email"
+						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Email address"
 					/>
 				</div>
-				<div>
+				<div class="mb-2">
 					<label for="password" class="sr-only">Password</label>
 					<input
 						id="password"
@@ -47,18 +60,20 @@
 						type="password"
 						autocomplete="current-password"
 						required=""
-						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						v-model="user.password"
+						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
 				</div>
 			</div>
 
-			<div class="flex items-center justify-between">
+			<div class="flex items-center justify-between mb-4">
 				<div class="flex items-center">
 					<input
 						id="remember-me"
 						name="remember-me"
 						type="checkbox"
+						v-model="user.remember"
 						class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
 					/>
 					<label
@@ -100,5 +115,33 @@
 </template>
 
 <script setup>
-import { LockClosedIcon } from "@heroicons/vue/solid";
+import { LockClosedIcon, XIcon } from "@heroicons/vue/solid";
+
+import { useRouter } from "vue-router";
+import store from "../store";
+import { ref } from "vue";
+
+const router = useRouter();
+
+const user = {
+	email: "",
+	password: "",
+	remember: false,
+};
+
+let errorMsg = ref("");
+
+const login = (ev) => {
+	ev.preventDefault();
+	store
+		.dispatch("login", user)
+		.then(() => {
+			router.push({
+				name: "Dashboard",
+			});
+		})
+		.catch((err) => {
+			errorMsg.value = err.response.data.error;
+		});
+};
 </script>

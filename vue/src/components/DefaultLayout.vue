@@ -144,7 +144,7 @@
 							<div
 								class="text-base font-medium leading-none text-white"
 							>
-								{{ user.name }}
+								{{ user.first_name + " " + user.last_name }}
 							</div>
 							<div
 								class="text-sm font-medium leading-none text-gray-400"
@@ -196,16 +196,17 @@ import { useStore } from "vuex";
 const router = useRouter();
 
 const logout = () => {
-	store.commit("logout");
-	router.push({
-		name: "Login",
+	store.dispatch("logout").then(() => {
+		router.push({
+			name: "Login",
+		});
 	});
 };
 
 const navigation = [
 	{ name: "Dashboard", to: { name: "Dashboard" }, current: true },
 	{ name: "Team", to: { name: "" }, current: false },
-	{ name: "Cliens", to: { name: "" }, current: false },
+	{ name: "Clients", to: { name: "ClientIndex" }, current: false },
 ];
 const userNavigation = [
 	{ name: "Your Profile", to: { name: "" } },

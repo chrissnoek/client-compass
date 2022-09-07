@@ -14,13 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_picture')->default('user.png');
-
-            // add a column with relation to id in tenants
-            $table->foreignId('tenant_id')->nullable()->constrained('tenants');
-
-
-            $table->string('type')->default('admin');
+            $table->boolean('password_set')->default(0);
         });
     }
 
@@ -32,9 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('tenant_id');
-            $table->dropColumn('profile_picture');
-            $table->dropColumn('type');
+            $table->dropColumn('password_set');
         });
     }
 };

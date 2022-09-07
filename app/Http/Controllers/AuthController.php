@@ -98,11 +98,12 @@ class AuthController extends Controller
             ]
         ]);
 
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('email', $data['email'])->firstOrFail();
 
         #Update the new Password
         $user->update([
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+            'password_set' => 1,
         ]);
 
         $token = $user->createToken('main')->plainTextToken;

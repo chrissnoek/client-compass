@@ -1,5 +1,9 @@
 <template>
-	<DefaultPage title="Clients">
+	<DefaultPage
+		title="Clients"
+		button_text="Add Client"
+		@onBtnClick="router.push({ name: 'ClientCreate' })"
+	>
 		<div class="overflow-x-auto w-full">
 			<table class="table w-full">
 				<!-- head -->
@@ -184,7 +188,10 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
+
+const router = useRouter();
 </script>
 
 <style scoped></style>

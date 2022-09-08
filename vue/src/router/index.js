@@ -26,11 +26,12 @@ const routes = [
 			},
 			{
 				path: "/clients",
-				name: "ClientIndex",
 				component: ViewHolder,
+				redirect: () => ({ name: "ClientIndex" }),
 				children: [
 					{
 						path: "",
+						name: "ClientIndex",
 						component: ClientsIndex,
 					},
 

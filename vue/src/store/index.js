@@ -34,6 +34,11 @@ const store = createStore({
 				return data;
 			});
 		},
+		createClient: ({ commit }, user) => {
+			return httpClient.post("/clients", user).then(({ data }) => {
+				return data;
+			});
+		},
 	},
 	mutations: {
 		logout: (state) => {

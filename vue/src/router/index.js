@@ -5,7 +5,7 @@ import PasswordReset from "../views/PasswordReset.vue";
 import SetPassword from "../views/SetPassword.vue";
 import SentPasswordSetMail from "../views/SentPasswordSetMail.vue";
 import AuthLayout from "../components/AuthLayout.vue";
-import store from "../store";
+import { useUserStore } from "../store/user";
 import Dashboard from "../views/Dashboard.vue";
 import ClientsIndex from "../views/clients/Index.vue";
 import ClientsCreate from "../views/clients/Create.vue";
@@ -91,9 +91,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	if (to.meta.requiresAuth && !store.state.user.token) {
+	const userStore = useUserStore();
+
+	if (to.meta.requiresAuth && !userStore.user.token) {
 		next({ name: "Login" });
-	} else if (store.state.user.token && to.meta.isGuest) {
+	} else if (userStore.user.token && to.meta.isGuest) {
 		next({ name: "Dashboard" });
 	} else {
 		next();

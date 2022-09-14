@@ -28,6 +28,7 @@ class ClientController extends Controller
 	public function store(StoreClientRequest $request)
 	{
 		$curUser = Auth::user();
+		// dd($curUser);
 		$tenantId = $curUser->tenant_id;
 		$data = $request->validated();
 
@@ -46,9 +47,7 @@ class ClientController extends Controller
 		$client = User::create($clientData);
 
 		if ($client) {
-			return response([
-				'success' => true
-			]);
+			return $client;
 		}
 	}
 

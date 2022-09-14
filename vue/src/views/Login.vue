@@ -118,10 +118,11 @@
 import { LockClosedIcon, XIcon } from "@heroicons/vue/solid";
 
 import { useRouter } from "vue-router";
-import store from "../store";
+import { useUserStore } from "../store/user";
 import { ref } from "vue";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const user = {
 	email: "",
@@ -133,8 +134,8 @@ let errorMsg = ref("");
 
 const login = (ev) => {
 	ev.preventDefault();
-	store
-		.dispatch("login", user)
+	userStore
+		.login(user)
 		.then(() => {
 			router.push({
 				name: "Dashboard",

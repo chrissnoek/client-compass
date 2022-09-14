@@ -191,15 +191,13 @@ import {
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/outline";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { useUserStore } from "../store/user";
 
 const router = useRouter();
 
 const logout = () => {
-	store.dispatch("logout").then(() => {
-		router.push({
-			name: "Login",
-		});
+	userStore.logout().then(() => {
+		router.push("/login");
 	});
 };
 
@@ -214,6 +212,6 @@ const userNavigation = [
 	{ name: "Sign out", to: { name: "" }, click: logout },
 ];
 
-const store = useStore();
-const user = computed(() => store.state.user.data);
+const userStore = useUserStore();
+const user = computed(() => userStore.user.data);
 </script>

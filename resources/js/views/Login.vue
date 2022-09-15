@@ -118,10 +118,13 @@
 import { LockClosedIcon, XIcon } from "@heroicons/vue/solid";
 
 import { useRouter } from "vue-router";
-import store from "../store";
-import { ref } from "vue";
+import { useUserStore } from "../store/user";
+import { ref, onMounted } from "vue";
+import httpClient from "../axios";
+import axios from "axios";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 const user = {
 	email: "",
@@ -133,15 +136,22 @@ let errorMsg = ref("");
 
 const login = (ev) => {
 	ev.preventDefault();
-	store
-		.dispatch("login", user)
+	userStore
+		.login(user)
 		.then(() => {
 			router.push({
 				name: "Dashboard",
 			});
 		})
 		.catch((err) => {
-			errorMsg.value = err.response.data.error;
+			console.log(err);
+			// errorMsg.value = err.response.data.error;
 		});
 };
+
+onMounted(() => {
+	axios
+		.get("http://client-compass.test/sanctum/csrf-cookie")
+		.then((response) => {});
+});
 </script>

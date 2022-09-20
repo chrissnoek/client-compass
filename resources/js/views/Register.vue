@@ -22,9 +22,10 @@
 				</router-link>
 			</p>
 		</div>
-		<form
+		<Form
 			class="mt-8 bg-white shadow-md rounded-md p-10"
 			@submit="register"
+			:validation-schema="schema"
 		>
 			<div class="rounded-md shadow-sm">
 				<div class="flex justify-center mb-2">
@@ -32,28 +33,38 @@
 						<label for="first_name" class="sr-only"
 							>First name</label
 						>
-						<input
+						<Field
 							v-model="user.first_name"
 							id="first_name"
 							name="first_name"
 							type="text"
 							autocomplete="given-name"
 							required=""
-							class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							placeholder="First name"
+							rules="required"
+						/>
+						<ErrorMessage
+							name="first_name"
+							class="text-red-500 text-sm"
 						/>
 					</div>
 					<div class="w-full">
 						<label for="last_name" class="sr-only">Last name</label>
-						<input
+						<Field
 							v-model="user.last_name"
 							id="last_name"
 							name="last_name"
 							type="text"
 							autocomplete="family-name"
 							required=""
-							class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							placeholder="Last name"
+							rules="required"
+						/>
+						<ErrorMessage
+							name="last_name"
+							class="text-red-500 text-sm"
 						/>
 					</div>
 				</div>
@@ -61,27 +72,39 @@
 					<label for="company_name" class="sr-only"
 						>Company Name</label
 					>
-					<input
+					<Field
 						v-model="user.company_name"
 						id="company_name"
 						name="company_name"
 						type="text"
+						autocomplete="organization"
 						required=""
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Company Name"
+						rules="required"
+					/>
+					<ErrorMessage
+						name="company_name"
+						class="text-red-500 text-sm"
 					/>
 				</div>
 				<div class="mb-2">
 					<label for="email" class="sr-only">Email address</label>
-					<input
+					<Field
 						v-model="user.email"
 						id="email"
 						name="email"
 						type="email"
 						autocomplete="email"
 						required=""
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Email address"
+						rules="required|email"
+					/>
+					<ErrorMessage
+						name="email"
+						as="p"
+						class="text-red-500 text-sm"
 					/>
 				</div>
 				<!-- <div class="mb-2">
@@ -114,8 +137,20 @@
 				</div> -->
 			</div>
 
+			<div
+				v-if="errors"
+				class="bg-red-500 text-white py-2 px-4 pr-0 rounded font-bold mb-4 shadow-lg"
+			>
+				<div v-for="(v, k) in errors" :key="k">
+					<p v-for="error in v" :key="error" class="text-sm">
+						{{ error }}
+					</p>
+				</div>
+			</div>
+
 			<div>
 				<button
+					:disabled="isSubmitting"
 					type="submit"
 					class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 				>
@@ -130,17 +165,28 @@
 					Sign up
 				</button>
 			</div>
-		</form>
+		</Form>
 	</div>
 </template>
 
 <script setup>
 import { LockClosedIcon } from "@heroicons/vue/solid";
-import { useRouter } from "vue-router";
-import store from "../store";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "../store/user";
+import { Form, Field, ErrorMessage, useForm } from "vee-validate";
+import * as yup from "yup";
 
+const schema = yup.object({
+	email: yup.string().required().email(),
+	first_name: yup.string().required(),
+	last_name: yup.string().required(),
+	company_name: yup.string().required(),
+});
+
+const { isSubmitting, handleSubmit } = useForm();
 const router = useRouter();
+const userStore = useUserStore();
 
 const user = {
 	first_name: "",
@@ -149,13 +195,18 @@ const user = {
 	company_name: "",
 };
 
-const register = (ev) => {
-	ev.preventDefault();
-	console.log(user);
-	store.dispatch("register", user).then(() => {
-		router.push({
-			name: "SentPasswordSetMail",
+const errors = ref(null);
+
+const register = handleSubmit(() => {
+	userStore
+		.register(user)
+		.then(() => {
+			router.push({
+				name: "SentPasswordSetMail",
+			});
+		})
+		.catch((e) => {
+			errors.value = e.response.data.errors;
 		});
-	});
-};
+});
 </script>

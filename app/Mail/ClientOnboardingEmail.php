@@ -32,7 +32,7 @@ class ClientOnboardingEmail extends Mailable
 	 */
 	public function build()
 	{
-		return $this->view('mails.adminwelcomeemail')->with([
+		return $this->view('mails.clientonboardingemail')->with([
 			'token' => $this->token,
 			'user' => $this->user,
 		]);;

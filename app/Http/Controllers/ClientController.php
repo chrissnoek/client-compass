@@ -46,6 +46,9 @@ class ClientController extends Controller
 
 		$client = User::create($clientData);
 
+		// Send password creation email to user email address
+		User::sendClientOnboardingEmail($client);
+
 		if ($client) {
 			return $client;
 		}

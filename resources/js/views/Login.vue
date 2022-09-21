@@ -48,7 +48,7 @@
 						autocomplete="email"
 						required=""
 						v-model="user.email"
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Email address"
 					/>
 				</div>
@@ -61,7 +61,7 @@
 						autocomplete="current-password"
 						required=""
 						v-model="user.password"
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
 				</div>
@@ -74,7 +74,7 @@
 						name="remember-me"
 						type="checkbox"
 						v-model="user.remember"
-						class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+						class="checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
 					/>
 					<label
 						for="remember-me"

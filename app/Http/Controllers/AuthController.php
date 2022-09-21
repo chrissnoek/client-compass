@@ -40,7 +40,7 @@ class AuthController extends Controller
 		]);
 
 		// Send password creation email to user email address
-		User::sendWelcomeEmail($user);
+		User::sendAdminWelcomeEmail($user);
 
 		return response([
 			'success' => true

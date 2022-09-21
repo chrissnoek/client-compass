@@ -875,7 +875,7 @@
 
 									<div style="Margin-left: 20px;Margin-right: 20px;">
 										<div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
-											<p style="Margin-top: 0;Margin-bottom: 20px;text-align: center;">Hey {{ $user->first_name }} 👋, You&#8217;re now part of the coaches and consultants community that puts clients success in front. See your business grow as your client's success grows!</p>
+											<p style="Margin-top: 0;Margin-bottom: 20px;text-align: center;">Hey {{ $user->first_name }} 👋, You've been invited to become one of the new success stories. Go ahead and create your new password!</p>
 										</div>
 									</div>
 
@@ -885,7 +885,7 @@
 
 									<div style="Margin-left: 20px;Margin-right: 20px;">
 										<div class="btn btn--flat btn--large" style="text-align:center;">
-											<![if !mso]><a style="border-radius: 0;display: inline-block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;background-color: #418812;font-family: Avenir, sans-serif;" href="<?php echo 'http://localhost:3000/set-password/' . $token . '?email=' . $user->email; ?>">Click here to set your password</a>
+											<![if !mso]><a style="border-radius: 0;display: inline-block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;background-color: #418812;font-family: Avenir, sans-serif;" href="<?php echo 'http://client-compass.test/set-password/' . $token . '?email=' . $user->email; ?>">Click here to set your password</a>
 											<![endif]>
 											<!--[if mso]><p style="line-height:0;margin:0;">&nbsp;</p><v:rect xmlns:v="urn:schemas-microsoft-com:vml" href="{{ url('/set-password?token={$token}') }}" style="width:110.25pt" fillcolor="#418812" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0pt,9pt,0pt,9pt"><center style="font-size:14px;line-height:24px;color:#FFFFFF;font-family:Avenir,sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:1.5px">Start Exploring</center></v:textbox></v:rect><![endif]-->
 										</div>

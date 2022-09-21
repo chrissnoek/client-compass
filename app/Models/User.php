@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
 		return $this->belongsTo(Tenant::class);
 	}
 
-	public static function sendWelcomeEmail($user)
+	public static function sendAdminWelcomeEmail($user)
 	{
 		// Generate a new reset password token
 		$token = app('auth.password.broker')->createToken($user);
@@ -66,6 +66,17 @@ class User extends Authenticatable implements MustVerifyEmail
 		// Send email
 		Mail::send('mails.adminwelcomeemail', ['user' => $user, 'token' => $token], function ($m) use ($user) {
 			$m->to($user->email, $user->first_name)->subject('Welcome to the APP');
+		});
+	}
+
+	public static function sendClientOnboardingEmail($user)
+	{
+		// Generate a new reset password token
+		$token = app('auth.password.broker')->createToken($user);
+
+		// Send email
+		Mail::send('mails.clientonboardingemail', ['user' => $user, 'token' => $token], function ($m) use ($user) {
+			$m->to($user->email, $user->first_name)->subject('You\'ve been invited!');
 		});
 	}
 }

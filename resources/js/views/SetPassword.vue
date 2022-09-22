@@ -12,14 +12,15 @@
 				Set Password
 			</h2>
 		</div>
-		<form
+		<Form
 			class="mt-8 bg-white shadow-md rounded-md p-10"
 			@submit="setPassword"
+			:validation-schema="schema"
 		>
 			<div class="rounded-md shadow-sm">
 				<div class="mb-2">
 					<label for="email" class="sr-only">Email address</label>
-					<input
+					<Field
 						v-model="user.email"
 						disabled
 						id="email"
@@ -33,7 +34,7 @@
 				</div>
 				<div class="mb-2">
 					<label for="password" class="sr-only">Password</label>
-					<input
+					<Field
 						v-model="user.password"
 						id="password"
 						name="password"
@@ -43,12 +44,72 @@
 						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
+					<div class="my-2 text-sm">
+						<p
+							:class="[
+								has_minimum_length
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has at
+							least 8 characters
+						</p>
+						<p
+							:class="[
+								has_lowercase
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has a lower
+							case characters
+						</p>
+						<p
+							:class="[
+								has_uppercase
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has an
+							upper case characters
+						</p>
+						<p
+							:class="[
+								has_number ? 'text-green-500' : 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has a
+							number
+						</p>
+						<p
+							:class="[
+								has_special
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has a
+							special character
+						</p>
+					</div>
+					<ErrorMessage
+						name="password"
+						as="p"
+						class="text-red-500 text-sm"
+					/>
 				</div>
 				<div class="mb-2">
 					<label for="password_confirmation" class="sr-only"
 						>Password Confirmation</label
 					>
-					<input
+					<Field
 						v-model="user.password_confirmation"
 						id="password_confirmation"
 						name="password_confirmation"
@@ -58,11 +119,17 @@
 						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password confirmation"
 					/>
+					<ErrorMessage
+						name="password_confirmation"
+						as="p"
+						class="text-red-500 text-sm"
+					/>
 				</div>
 			</div>
 
 			<div>
 				<button
+					:disabled="isSubmitting"
 					type="submit"
 					class="btn btn-primary group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 				>
@@ -77,35 +144,68 @@
 					Reset Password
 				</button>
 			</div>
-		</form>
+		</Form>
 	</div>
 </template>
 
 <script setup>
-import { LockClosedIcon } from "@heroicons/vue/solid";
+import { LockClosedIcon, ShieldCheckIcon } from "@heroicons/vue/outline";
 import { useRouter, useRoute } from "vue-router";
-import store from "../store";
-import { ref } from "vue";
+import { useUserStore } from "../store/user";
+import { ref, computed, reactive } from "vue";
+import { Form, Field, ErrorMessage, useForm } from "vee-validate";
+import * as yup from "yup";
+
+const schema = yup.object({
+	email: yup.string().required().email(),
+	password: yup.string().required(),
+	password_confirmation: yup
+		.string()
+		.required()
+		.oneOf([yup.ref("password")], "Your password should match"),
+});
 
 const router = useRouter();
 const route = useRoute();
 
-console.log(route.params, route.query);
+const { isSubmitting, handleSubmit } = useForm();
+const userStore = useUserStore();
 
-const user = {
+const has_minimum_length = computed(() => {
+	return user.password.length > 8;
+});
+const has_number = computed(() => {
+	return /\d/.test(user.password);
+});
+const has_lowercase = computed(() => {
+	return /[a-z]/.test(user.password);
+});
+const has_uppercase = computed(() => {
+	return /[A-Z]/.test(user.password);
+});
+const has_special = computed(() => {
+	return /[!@#\$%\^\&*\)\(+=._-]/.test(user.password);
+});
+
+const user = reactive({
 	email: route.query.email,
 	password: "",
 	password_confirmation: "",
 	token: route.params.token,
-};
+});
 
-const setPassword = (ev) => {
-	ev.preventDefault();
-	console.log(user);
-	store.dispatch("setPassword", user).then(() => {
-		router.push({
-			name: "Dashboard",
+const errors = ref(null);
+
+const setPassword = handleSubmit(() => {
+	userStore
+		.setPassword(user)
+		.then(() => {
+			router.push({
+				name: "Dashboard",
+			});
+		})
+		.catch((e) => {
+			errors.value = e.response.data.errors;
 		});
-	});
-};
+});
 </script>

@@ -44,6 +44,61 @@
 						class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
+					<div class="my-2 text-sm">
+						<p
+							:class="[
+								has_minimum_length
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has at
+							least 8 characters
+						</p>
+						<p
+							:class="[
+								has_lowercase
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has a lower
+							case characters
+						</p>
+						<p
+							:class="[
+								has_uppercase
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has an
+							upper case characters
+						</p>
+						<p
+							:class="[
+								has_number ? 'text-green-500' : 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has a
+							number
+						</p>
+						<p
+							:class="[
+								has_special
+									? 'text-green-500'
+									: 'text-gray-400',
+								'flex items-center mt-1',
+							]"
+						>
+							<ShieldCheckIcon class="w-5 h-5 mr-1" /> Has a
+							special character
+						</p>
+					</div>
 					<ErrorMessage
 						name="password"
 						as="p"
@@ -94,10 +149,10 @@
 </template>
 
 <script setup>
-import { LockClosedIcon } from "@heroicons/vue/solid";
+import { LockClosedIcon, ShieldCheckIcon } from "@heroicons/vue/outline";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../store/user";
-import { ref } from "vue";
+import { ref, computed, reactive } from "vue";
 import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import * as yup from "yup";
 
@@ -116,12 +171,28 @@ const route = useRoute();
 const { isSubmitting, handleSubmit } = useForm();
 const userStore = useUserStore();
 
-const user = {
+const has_minimum_length = computed(() => {
+	return user.password.length > 8;
+});
+const has_number = computed(() => {
+	return /\d/.test(user.password);
+});
+const has_lowercase = computed(() => {
+	return /[a-z]/.test(user.password);
+});
+const has_uppercase = computed(() => {
+	return /[A-Z]/.test(user.password);
+});
+const has_special = computed(() => {
+	return /[!@#\$%\^\&*\)\(+=._-]/.test(user.password);
+});
+
+const user = reactive({
 	email: route.query.email,
 	password: "",
 	password_confirmation: "",
 	token: route.params.token,
-};
+});
 
 const errors = ref(null);
 

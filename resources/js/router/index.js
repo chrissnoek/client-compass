@@ -8,7 +8,8 @@ import AuthLayout from "../components/AuthLayout.vue";
 import { useUserStore } from "../store/user";
 import Dashboard from "../views/Dashboard.vue";
 import ClientsIndex from "../views/clients/Index.vue";
-import ClientsCreate from "../views/clients/Create.vue";
+import ClientCreate from "../views/clients/Create.vue";
+import ClientShow from "../views/clients/Show.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 
@@ -38,7 +39,12 @@ const routes = [
 					{
 						path: "create",
 						name: "ClientCreate",
-						component: ClientsCreate,
+						component: ClientCreate,
+					},
+					{
+						path: ":id",
+						name: "ClientShow",
+						component: ClientShow,
 					},
 				],
 			},

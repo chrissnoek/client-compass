@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\WorkflowController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 	Route::resource('/clients', ClientController::class);
 	Route::resource('/workflows', WorkflowController::class);
+	Route::resource('/tasks', TaskController::class);
 });
 
 Route::put('/set-password', [AuthController::class, 'setPassword']);

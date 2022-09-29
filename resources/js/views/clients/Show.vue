@@ -188,10 +188,20 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
+import { onMounted, reactive } from "vue";
 
 const router = useRouter();
+const route = useRoute();
+
+const state = reactive({
+	id: route.params.id,
+});
+
+onMounted(() => {
+	console.log(state.id);
+});
 </script>
 
 <style scoped></style>

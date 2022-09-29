@@ -5,25 +5,33 @@
 				<div>
 					<div class="">
 						<div class="">
-							<form @submit="createClient">
+							<Form
+								@submit="createClient"
+								:validation-schema="schema"
+							>
 								<div>
 									<div class="">
 										<div class="grid grid-cols-6 gap-6">
 											<div
-												class="col-span-6 sm:col-span-3"
+												class="col-span-6 sm:col-span-3 form-control"
 											>
 												<label
 													for="first-name"
 													class="block font-medium text-gray-700"
 													>First name</label
 												>
-												<input
+												<Field
 													type="text"
-													name="first-name"
-													id="first-name"
+													name="first_name"
+													id="first_name"
 													autocomplete="given-name"
 													class="mt-1 input input-bordered w-full"
 													v-model="user.first_name"
+												/>
+												<ErrorMessage
+													name="first_name"
+													as="p"
+													class="text-red-500 text-sm"
 												/>
 											</div>
 
@@ -35,13 +43,18 @@
 													class="block font-medium text-gray-700"
 													>Last name</label
 												>
-												<input
+												<Field
 													type="text"
-													name="last-name"
-													id="last-name"
+													name="last_name"
+													id="last_name"
 													autocomplete="family-name"
 													class="mt-1 input input-bordered w-full"
 													v-model="user.last_name"
+												/>
+												<ErrorMessage
+													name="last_name"
+													as="p"
+													class="text-red-500 text-sm"
 												/>
 											</div>
 
@@ -51,13 +64,18 @@
 													class="block font-medium text-gray-700"
 													>Email address</label
 												>
-												<input
+												<Field
 													type="text"
-													name="email-address"
-													id="email-address"
+													name="email"
+													id="email"
 													autocomplete="email"
 													class="mt-1 input input-bordered w-full"
 													v-model="user.email"
+												/>
+												<ErrorMessage
+													name="email"
+													as="p"
+													class="text-red-500 text-sm"
 												/>
 											</div>
 										</div>
@@ -65,26 +83,38 @@
 								</div>
 								<div class="flex items-center">
 									<div class="mt-3 flex items-center">
-										<input
-											id="send-credentials"
+										<Field
+											id="send_credentials"
+											name="send_credentials"
 											type="checkbox"
 											class="checkbox mr-2"
-											v-model="user.send_credentials"
+											:checked="user.send_credentials"
+											@click="
+												toggleCheckbox(
+													$event.target.checked
+												)
+											"
 										/>
-										<label for="send-credentials"
+										<label for="send_credentials"
 											>Send user onboarding email</label
 										>
+										<ErrorMessage
+											name="send_credentials"
+											as="p"
+											class="text-red-500 text-sm"
+										/>
 									</div>
 									<div class="pt-3 ml-auto">
 										<button
+											:disabled="isSubmitting"
 											type="submit"
-											class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+											class="btn btn-primary inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 										>
 											Save
 										</button>
 									</div>
 								</div>
-							</form>
+							</Form>
 						</div>
 					</div>
 				</div>
@@ -95,30 +125,42 @@
 
 <script setup>
 import DefaultPage from "../../components/DefaultPage.vue";
-import store from "../../store";
+import { Form, Field, ErrorMessage, useForm } from "vee-validate";
+import * as yup from "yup";
+import { useRouter } from "vue-router";
+import { useClientStore } from "../../store/client";
+import { reactive } from "vue";
 
-const user = {
+const { handleSubmit, isSubmitting } = useForm();
+const router = useRouter();
+const clientStore = useClientStore();
+
+const user = reactive({
 	first_name: "",
 	last_name: "",
 	email: "",
-	send_credentials: "",
+	send_credentials: true,
+});
+
+const schema = yup.object({
+	email: yup.string().required().email(),
+	first_name: yup.string().required(),
+	last_name: yup.string().required(),
+});
+
+const toggleCheckbox = (value) => {
+	user.send_credentials = value;
 };
 
-const createClient = (e) => {
-	e.preventDefault();
-	console.log(user);
-
-	// post request to /users with user request object
-	store.dispatch("createClient", user).then((response) => {
+const createClient = handleSubmit(() => {
+	clientStore.create(user).then((response) => {
 		console.log(response);
-
-		// to go /clients/{id}
-
-		// router.push({
-		// 	name: "SentPasswordSetMail",
-		// });
+		router.push({
+			name: "ClientShow",
+			params: { id: response.data.id },
+		});
 	});
-};
+});
 </script>
 
 <style scoped></style>

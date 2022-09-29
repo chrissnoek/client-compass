@@ -39,11 +39,6 @@ export const useUserStore = defineStore("user", {
 				return data;
 			});
 		},
-		createClient(user) {
-			return httpClient.post("/clients", user).then(({ data }) => {
-				return data;
-			});
-		},
 		setUser(userData) {
 			this.user.token = userData.token;
 			this.user.data = userData.user;

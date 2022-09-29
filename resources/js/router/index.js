@@ -7,9 +7,12 @@ import SentPasswordSetMail from "../views/SentPasswordSetMail.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import { useUserStore } from "../store/user";
 import Dashboard from "../views/Dashboard.vue";
-import ClientsIndex from "../views/clients/Index.vue";
+import ClientIndex from "../views/clients/Index.vue";
 import ClientCreate from "../views/clients/Create.vue";
 import ClientShow from "../views/clients/Show.vue";
+import WorkflowIndex from "../views/workflows/Index.vue";
+import WorkflowCreate from "../views/workflows/Create.vue";
+import WorkflowShow from "../views/workflows/Show.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 
@@ -33,7 +36,7 @@ const routes = [
 					{
 						path: "",
 						name: "ClientIndex",
-						component: ClientsIndex,
+						component: ClientIndex,
 					},
 
 					{
@@ -45,6 +48,29 @@ const routes = [
 						path: ":id",
 						name: "ClientShow",
 						component: ClientShow,
+					},
+				],
+			},
+			{
+				path: "/workflows",
+				component: ViewHolder,
+				redirect: () => ({ name: "WorkflowIndex" }),
+				children: [
+					{
+						path: "",
+						name: "WorkflowIndex",
+						component: WorkflowIndex,
+					},
+
+					{
+						path: "create",
+						name: "WorkflowCreate",
+						component: WorkflowCreate,
+					},
+					{
+						path: ":id",
+						name: "WorkflowShow",
+						component: WorkflowShow,
 					},
 				],
 			},

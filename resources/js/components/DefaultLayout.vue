@@ -203,8 +203,9 @@ const logout = () => {
 
 const navigation = [
 	{ name: "Dashboard", to: { name: "Dashboard" }, current: true },
-	{ name: "Team", to: { name: "" }, current: false },
+	// { name: "Team", to: { name: "" }, current: false },
 	{ name: "Clients", to: { name: "ClientIndex" }, current: false },
+	{ name: "Workflows", to: { name: "WorkflowIndex" }, current: false },
 ];
 const userNavigation = [
 	{ name: "Your Profile", to: { name: "" } },

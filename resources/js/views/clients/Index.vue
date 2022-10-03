@@ -2,7 +2,7 @@
 	<DefaultPage
 		title="Clients"
 		button_text="Add Client"
-		@onBtnClick="router.push({ name: 'ClientCreate' })"
+		@onBtnClick="showCreate = true"
 	>
 		<div class="overflow-x-auto w-full">
 			<table class="table w-full">
@@ -33,7 +33,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="/tailwind-css-component-profile-2@56w.png"
+											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -72,7 +72,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="/tailwind-css-component-profile-3@56w.png"
+											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -109,7 +109,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="/tailwind-css-component-profile-4@56w.png"
+											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -146,7 +146,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="/tailwind-css-component-profile-5@56w.png"
+											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -185,13 +185,28 @@
 			</table>
 		</div>
 	</DefaultPage>
+
+	<VueFinalModal v-model="showCreate" classes="modal-container">
+		<ClientCreate />
+	</VueFinalModal>
 </template>
 
 <script setup>
+import { VueFinalModal } from "vue-final-modal";
 import { useRouter } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
+import ClientCreate from "./Create.vue";
+import { ref } from "vue";
+
+const showCreate = ref(false);
 
 const router = useRouter();
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep .modal-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>

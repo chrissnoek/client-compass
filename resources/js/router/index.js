@@ -8,10 +8,8 @@ import AuthLayout from "../components/AuthLayout.vue";
 import { useUserStore } from "../store/user";
 import Dashboard from "../views/Dashboard.vue";
 import ClientIndex from "../views/clients/Index.vue";
-import ClientCreate from "../views/clients/Create.vue";
 import ClientShow from "../views/clients/Show.vue";
 import WorkflowIndex from "../views/workflows/Index.vue";
-import WorkflowCreate from "../views/workflows/Create.vue";
 import WorkflowShow from "../views/workflows/Show.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
@@ -39,11 +37,11 @@ const routes = [
 						component: ClientIndex,
 					},
 
-					{
-						path: "create",
-						name: "ClientCreate",
-						component: ClientCreate,
-					},
+					// {
+					// 	path: "create",
+					// 	name: "ClientCreate",
+					// 	component: ClientCreate,
+					// },
 					{
 						path: ":id",
 						name: "ClientShow",
@@ -62,11 +60,11 @@ const routes = [
 						component: WorkflowIndex,
 					},
 
-					{
-						path: "create",
-						name: "WorkflowCreate",
-						component: WorkflowCreate,
-					},
+					// {
+					// 	path: "create",
+					// 	name: "WorkflowCreate",
+					// 	component: WorkflowCreate,
+					// },
 					{
 						path: ":id",
 						name: "WorkflowShow",

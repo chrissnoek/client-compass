@@ -2,7 +2,7 @@
 	<DefaultPage
 		title="Workflows"
 		button_text="Add workflow"
-		@onBtnClick="router.push({ name: 'WorkflowCreate' })"
+		@onBtnClick="showCreate = true"
 	>
 		<div class="overflow-x-auto w-full">
 			<table class="table w-full">
@@ -185,13 +185,27 @@
 			</table>
 		</div>
 	</DefaultPage>
+	<VueFinalModal v-model="showCreate" classes="modal-container">
+		<WorkflowCreate />
+	</VueFinalModal>
 </template>
 
 <script setup>
+import { VueFinalModal } from "vue-final-modal";
 import { useRouter } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
+import WorkflowCreate from "./Create.vue";
+import { ref } from "vue";
+
+const showCreate = ref(false);
 
 const router = useRouter();
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep .modal-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>

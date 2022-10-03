@@ -1,159 +1,117 @@
 <template>
-	<DefaultPage title="Create Workflow">
-		<div class="card bg-base-100 shadow-xl mx-auto max-w-lg prose">
-			<div class="card-body shadow p-6">
-				<div>
-					<div class="">
-						<div class="">
-							<Form
-								@submit="createWorkflow"
-								:validation-schema="schema"
+	<div class="card bg-base-100 shadow-xl mx-auto max-w-5xl">
+		<div class="card-body shadow p-6">
+			<div class="mt-10 sm:mt-0 py-5">
+				<Form @submit="createWorkflow" :validation-schema="schema">
+					<div class="grid grid-cols-6 gap-6">
+						<div class="col-span-6 sm:col-span-3">
+							<label
+								for="title"
+								class="block text-sm font-medium text-gray-700"
+								>Title</label
 							>
-								<div>
-									<div class="">
-										<div class="grid grid-cols-6 gap-6">
-											<div
-												class="col-span-6 sm:col-span-3 form-control"
-											>
-												<label
-													for="first-name"
-													class="block font-medium text-gray-700"
-													>First name</label
-												>
-												<Field
-													type="text"
-													name="first_name"
-													id="first_name"
-													autocomplete="given-name"
-													class="mt-1 input input-bordered w-full"
-													v-model="user.first_name"
-												/>
-												<ErrorMessage
-													name="first_name"
-													as="p"
-													class="text-red-500 text-sm"
-												/>
-											</div>
-
-											<div
-												class="col-span-6 sm:col-span-3"
-											>
-												<label
-													for="last-name"
-													class="block font-medium text-gray-700"
-													>Last name</label
-												>
-												<Field
-													type="text"
-													name="last_name"
-													id="last_name"
-													autocomplete="family-name"
-													class="mt-1 input input-bordered w-full"
-													v-model="user.last_name"
-												/>
-												<ErrorMessage
-													name="last_name"
-													as="p"
-													class="text-red-500 text-sm"
-												/>
-											</div>
-
-											<div class="col-span-6">
-												<label
-													for="email-address"
-													class="block font-medium text-gray-700"
-													>Email address</label
-												>
-												<Field
-													type="text"
-													name="email"
-													id="email"
-													autocomplete="email"
-													class="mt-1 input input-bordered w-full"
-													v-model="user.email"
-												/>
-												<ErrorMessage
-													name="email"
-													as="p"
-													class="text-red-500 text-sm"
-												/>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="flex items-center">
-									<div class="mt-3 flex items-center">
-										<Field
-											id="send_credentials"
-											name="send_credentials"
-											type="checkbox"
-											class="checkbox mr-2"
-											:checked="user.send_credentials"
-											@click="
-												toggleCheckbox(
-													$event.target.checked
-												)
-											"
-										/>
-										<label for="send_credentials"
-											>Send user onboarding email</label
-										>
-										<ErrorMessage
-											name="send_credentials"
-											as="p"
-											class="text-red-500 text-sm"
-										/>
-									</div>
-									<div class="pt-3 ml-auto">
-										<button
-											:disabled="isSubmitting"
-											type="submit"
-											class="btn btn-primary inline-flex justify-center py-2 px-4 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-										>
-											Save
-										</button>
-									</div>
-								</div>
-							</Form>
+							<input
+								type="text"
+								name="title"
+								id="title"
+								autocomplete="family-name"
+								class="input input-bordered mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+							/>
+						</div>
+						<div class="col-span-6 sm:col-span-3 flex items-center">
+							<Field
+								id="default"
+								name="default"
+								type="checkbox"
+								class="checkbox mr-2"
+								:checked="workflow.default"
+								@click="toggleCheckbox($event.target.checked)"
+							/>
+							<label
+								for="default"
+								class="block text-sm font-medium text-gray-700"
+								>Assign to new users</label
+							>
 						</div>
 					</div>
-				</div>
+					<div class="grid grid-cols-6 gap-6 my-6">
+						<div class="col-span-6">
+							<h3
+								class="text-2xl font-semibold flex items-center"
+							>
+								Workflow items
+								<button
+									type="button"
+									@click="addItem()"
+									class="flex items-center ml-4 text-sm py-1 px-4 rounded text-white bg-gray-600 hover:bg-gray-700"
+								>
+									Add item
+									<PlusIcon
+										class="ml-1 h-4 w-4"
+										aria-hidden="true"
+									/>
+								</button>
+							</h3>
+							<div
+								v-if="!workflow.items.length"
+								class="text-gray-600"
+							>
+								You don't have any items in this workflow yet
+							</div>
+							<div v-for="(item, index) in workflow.items">
+								<ItemEditor
+									:item="item"
+									:index="index"
+									@change="itemChange"
+									@addItem="addItem"
+									@deleteItem="deleteItem"
+								></ItemEditor>
+							</div>
+						</div>
+					</div>
+					<button
+						type="submit"
+						class="btn btn-primary inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+					>
+						Create
+					</button>
+				</Form>
 			</div>
 		</div>
-	</DefaultPage>
+	</div>
 </template>
 
 <script setup>
-import DefaultPage from "../../components/DefaultPage.vue";
 import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
 import { useWorkflowStore } from "../../store/workflow";
 import { reactive } from "vue";
+import { PlusIcon } from "@heroicons/vue/solid";
+import ItemEditor from "../../components/WorkflowEditor/ItemEditor.vue";
 
 const { handleSubmit, isSubmitting } = useForm();
 const router = useRouter();
 const workflowStore = useWorkflowStore();
 
-const user = reactive({
-	first_name: "",
-	last_name: "",
-	email: "",
-	send_credentials: true,
-});
-
-const schema = yup.object({
-	email: yup.string().required().email(),
-	first_name: yup.string().required(),
-	last_name: yup.string().required(),
+const workflow = reactive({
+	title: "",
+	default: true,
+	items: [],
 });
 
 const toggleCheckbox = (value) => {
-	user.send_credentials = value;
+	workflow.default = value;
 };
 
+const schema = yup.object({
+	title: yup.string().required(),
+});
+
+const addItem = () => {};
+
 const createWorkflow = handleSubmit(() => {
-	workflowStore.create(user).then((response) => {
+	workflowStore.create(workflow).then((response) => {
 		console.log(response);
 		router.push({
 			name: "WorkflowShow",

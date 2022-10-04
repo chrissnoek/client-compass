@@ -16,6 +16,7 @@
 		"daisyui": "^2.24.0",
 		"lodash": "^4.17.21",
 		"pinia": "^2.0.22",
+		"uuid": "^9.0.0",
 		"vee-validate": "^4.6.9",
 		"vue": "^3.2.25",
 		"vue-final-modal": "^3.4.4",

@@ -1,24 +1,25 @@
 <template>
 	<div class="card bg-base-100 shadow-xl mx-auto max-w-5xl">
 		<div class="card-body shadow p-6">
-			<div class="mt-10 sm:mt-0 py-5">
+			<h1 class="text-2xl font-bold">Create new workflow</h1>
+			<div class="mt-10 sm:mt-0 py-2">
 				<Form @submit="createWorkflow" :validation-schema="schema">
-					<div class="grid grid-cols-6 gap-6">
-						<div class="col-span-6 sm:col-span-3">
+					<div class="grid grid-cols-6 gap-2">
+						<div class="col-span-6 form-control">
 							<label
 								for="title"
-								class="block text-sm font-medium text-gray-700"
-								>Title</label
+								class="label block font-bold text-gray-700"
+								>Workflow Title</label
 							>
 							<input
 								type="text"
 								name="title"
 								id="title"
 								autocomplete="family-name"
-								class="input input-bordered mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+								class="input input-bordered w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 							/>
 						</div>
-						<div class="col-span-6 sm:col-span-3 flex items-center">
+						<div class="col-span-6 flex items-center">
 							<Field
 								id="default"
 								name="default"
@@ -29,16 +30,14 @@
 							/>
 							<label
 								for="default"
-								class="block text-sm font-medium text-gray-700"
+								class="label block text-sm font-medium text-gray-700"
 								>Assign to new users</label
 							>
 						</div>
 					</div>
-					<div class="grid grid-cols-6 gap-6 my-6">
+					<div class="grid grid-cols-6 gap-2 my-6">
 						<div class="col-span-6">
-							<h3
-								class="text-2xl font-semibold flex items-center"
-							>
+							<label class="label font-bold flex items-center">
 								Workflow items
 								<button
 									type="button"
@@ -51,21 +50,24 @@
 										aria-hidden="true"
 									/>
 								</button>
-							</h3>
-							<div
-								v-if="!workflow.items.length"
-								class="text-gray-600"
-							>
-								You don't have any items in this workflow yet
-							</div>
-							<div v-for="(item, index) in workflow.items">
-								<ItemEditor
-									:item="item"
-									:index="index"
-									@change="itemChange"
-									@addItem="addItem"
-									@deleteItem="deleteItem"
-								></ItemEditor>
+							</label>
+							<div class="w-80">
+								<p
+									v-if="!workflow.items.length"
+									class="text-gray-600 text-sm"
+								>
+									You don't have any items in this workflow
+									yet
+								</p>
+								<div v-for="(item, index) in workflow.items">
+									<ItemEditor
+										:item="item"
+										:index="index"
+										@change="itemChange"
+										@addItem="addItem"
+										@deleteItem="deleteItem"
+									></ItemEditor>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -82,6 +84,7 @@
 </template>
 
 <script setup>
+import { v4 as uuidv4 } from "uuid";
 import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
@@ -100,6 +103,27 @@ const workflow = reactive({
 	items: [],
 });
 
+const addItem = () => {
+	workflow.items.push({
+		id: uuidv4(),
+		title: "",
+	});
+};
+
+const deleteItem = (deletedItem) => {
+	workflow.items = workflow.items.filter((item) => {
+		return item !== deletedItem;
+	});
+};
+
+const itemChange = (changedItem) => {
+	console.log(changedItem);
+	const _items = [...workflow.items];
+	let changeItem = _items.filter((item) => item === changedItem);
+	changeItem = changedItem;
+	workflow.items = _items;
+};
+
 const toggleCheckbox = (value) => {
 	workflow.default = value;
 };
@@ -107,8 +131,6 @@ const toggleCheckbox = (value) => {
 const schema = yup.object({
 	title: yup.string().required(),
 });
-
-const addItem = () => {};
 
 const createWorkflow = handleSubmit(() => {
 	workflowStore.create(workflow).then((response) => {

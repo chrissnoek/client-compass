@@ -6,25 +6,28 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWorkflowRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return false;
+	}
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
-    {
-        return [
-            //
-        ];
-    }
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function rules()
+	{
+		return [
+			'title' => 'required|string',
+			'default' => 'required|boolean',
+			'type' => 'required|in:daily,custom',
+			'items' => 'required|array',
+		];
+	}
 }

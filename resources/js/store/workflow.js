@@ -7,9 +7,9 @@ export const useWorkflowStore = defineStore("workflow", {
 	}),
 	getters: {},
 	actions: {
-		create(user) {
+		create(workflow) {
 			return httpClient
-				.post("/workflows", user)
+				.post("/workflows", workflow)
 				.then((response) => {
 					console.log(response);
 				})

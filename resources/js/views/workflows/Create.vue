@@ -1,5 +1,5 @@
 <template>
-	<div class="card bg-base-100 shadow-xl mx-auto max-w-5xl">
+	<div class="bg-base-100 shadow-xl mx-auto max-w-5xl">
 		<div class="card-body shadow p-6">
 			<h1 class="text-2xl font-bold">Create new workflow</h1>
 			<div class="mt-10 sm:mt-0 py-2">
@@ -71,6 +71,7 @@
 							</div>
 						</div>
 					</div>
+
 					<button
 						type="submit"
 						class="btn btn-primary inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

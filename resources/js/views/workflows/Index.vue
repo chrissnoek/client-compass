@@ -185,8 +185,17 @@
 			</table>
 		</div>
 	</DefaultPage>
-	<VueFinalModal v-model="showCreate" classes="modal-container">
-		<WorkflowCreate />
+	<VueFinalModal
+		v-model="showCreate"
+		classes="modal-container"
+		content-class="modal-content"
+	>
+		<div class="modal-content">
+			<button class="modal__close" @click="showCreate = false">
+				<XIcon class="h-6 w-6" aria-hidden="true" />
+			</button>
+			<WorkflowCreate />
+		</div>
 	</VueFinalModal>
 </template>
 
@@ -196,6 +205,7 @@ import { useRouter } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
 import WorkflowCreate from "./Create.vue";
 import { ref } from "vue";
+import { XIcon } from "@heroicons/vue/solid";
 
 const showCreate = ref(false);
 
@@ -207,5 +217,19 @@ const router = useRouter();
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+:deep .modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	max-height: 90%;
+	overflow-y: auto;
+	border-radius: 1rem;
+}
+:deep .modal__close {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
 }
 </style>

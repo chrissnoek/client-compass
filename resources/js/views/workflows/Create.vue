@@ -11,11 +11,11 @@
 								class="label block font-bold text-gray-700"
 								>Workflow Title</label
 							>
-							<input
+							<Field
 								type="text"
 								name="title"
+								v-model="workflow.title"
 								id="title"
-								autocomplete="family-name"
 								class="input input-bordered w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 							/>
 						</div>
@@ -34,8 +34,37 @@
 								>Assign to new users</label
 							>
 						</div>
+						<div class="col-span-6 form-control">
+							<label
+								for="title"
+								class="label block font-bold text-gray-700"
+								>Workflow type</label
+							>
+							<div class="my-1 flex items-center">
+								<input
+									type="radio"
+									name="type"
+									value="daily"
+									v-model="workflow.type"
+									id="daily"
+									class="mr-2 radio"
+								/>
+								<label for="daily">Daily</label>
+							</div>
+							<div class="my-1 flex items-center">
+								<input
+									type="radio"
+									name="type"
+									value="once"
+									v-model="workflow.type"
+									id="once"
+									class="mr-2 radio"
+								/>
+								<label for="once">Once</label>
+							</div>
+						</div>
 					</div>
-					<div class="grid grid-cols-6 gap-2 my-6">
+					<div class="grid grid-cols-6 gap-2 mb-6">
 						<div class="col-span-6">
 							<label class="label font-bold flex items-center">
 								Workflow items
@@ -102,6 +131,7 @@ const workflow = reactive({
 	title: "",
 	default: true,
 	items: [],
+	type: "daily",
 });
 
 const addItem = () => {
@@ -133,7 +163,10 @@ const schema = yup.object({
 	title: yup.string().required(),
 });
 
+const emit = defineEmits(["close"]);
+
 const createWorkflow = handleSubmit(() => {
+	console.log(workflow);
 	workflowStore.create(workflow).then((response) => {
 		console.log(response);
 		router.push({
@@ -141,6 +174,8 @@ const createWorkflow = handleSubmit(() => {
 			params: { id: response.data.id },
 		});
 	});
+
+	emit("close");
 });
 </script>
 

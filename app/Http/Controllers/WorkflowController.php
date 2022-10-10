@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateWorkflowRequest;
 use App\Http\Resources\WorkflowResource;
 use App\Models\Task;
 use App\Models\Workflow;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class WorkflowController extends Controller
@@ -31,17 +32,23 @@ class WorkflowController extends Controller
 	{
 		$validated = $request->safe();
 
+		$user = Auth::user();
+
 		$workflow = new Workflow;
 		$workflow->title = $validated['title'];
 		$workflow->default = $validated['default'];
 		$workflow->type = $validated['type'];
+		$workflow->tenant_id = $user->tenant_id;
 
 		foreach ($validated['items'] as $key => $value) {
 			$task = new Task;
 
-			DB::transaction(function () use ($workflow, $task, $value) {
+			DB::transaction(function () use ($workflow, $task, $value, $user) {
 				$workflow->save();
 				$task->title = $value['title'];
+				$task->description = $value['description'];
+				$task->workflow_id = $workflow->id;
+				$task->tenant_id = $user->tenant_id;
 
 				$task->save();
 			});

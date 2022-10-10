@@ -28,6 +28,8 @@ class StoreWorkflowRequest extends FormRequest
 			'default' => 'required|boolean',
 			'type' => 'required|in:daily,custom',
 			'items' => 'required|array',
+			'items.*.title' => 'required|string',
+			'items.*.description' => 'nullable|string',
 		];
 	}
 }

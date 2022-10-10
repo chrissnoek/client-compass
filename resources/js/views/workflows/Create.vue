@@ -138,6 +138,7 @@ const addItem = () => {
 	workflow.items.push({
 		id: uuidv4(),
 		title: "",
+		description: "",
 	});
 };
 

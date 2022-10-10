@@ -121,7 +121,7 @@ import { useRouter } from "vue-router";
 import { useWorkflowStore } from "../../store/workflow";
 import { reactive } from "vue";
 import { PlusIcon } from "@heroicons/vue/solid";
-import ItemEditor from "../../components/WorkflowEditor/ItemEditor.vue";
+import ItemEditor from "../../components/workflows/ItemEditor.vue";
 
 const { handleSubmit, isSubmitting } = useForm();
 const router = useRouter();

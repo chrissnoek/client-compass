@@ -129,7 +129,7 @@
 
 			<div>
 				<button
-					:disabled="isSubmitting"
+					:disabled="btnDisabled"
 					type="submit"
 					class="btn btn-primary group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 				>
@@ -153,7 +153,14 @@ import { LockClosedIcon, ShieldCheckIcon } from "@heroicons/vue/outline";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../store/user";
 import { ref, computed, reactive } from "vue";
-import { Form, Field, ErrorMessage, useForm } from "vee-validate";
+import {
+	Form,
+	Field,
+	ErrorMessage,
+	useForm,
+	useIsFormValid,
+	useIsFormDirty,
+} from "vee-validate";
 import * as yup from "yup";
 
 const schema = yup.object({
@@ -168,7 +175,16 @@ const schema = yup.object({
 const router = useRouter();
 const route = useRoute();
 
+const user = reactive({
+	email: route.query.email,
+	password: "",
+	password_confirmation: "",
+	token: route.params.token,
+});
+
 const { isSubmitting, handleSubmit } = useForm();
+const isValid = useIsFormValid();
+const isDirty = useIsFormDirty();
 const userStore = useUserStore();
 
 const has_minimum_length = computed(() => {
@@ -187,11 +203,23 @@ const has_special = computed(() => {
 	return /[!@#\$%\^\&*\)\(+=._-]/.test(user.password);
 });
 
-const user = reactive({
-	email: route.query.email,
-	password: "",
-	password_confirmation: "",
-	token: route.params.token,
+const conditions_met = computed(() => {
+	return (
+		has_minimum_length.value &&
+		has_number.value &&
+		has_lowercase.value &&
+		has_uppercase.value &&
+		has_special.value
+	);
+});
+
+const btnDisabled = computed(() => {
+	return (
+		isSubmitting.value ||
+		!conditions_met.value ||
+		!isValid.value ||
+		![user.password].includes(user.password_confirmation)
+	);
 });
 
 const errors = ref(null);

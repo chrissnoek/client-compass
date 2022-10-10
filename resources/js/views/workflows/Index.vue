@@ -1,7 +1,7 @@
 <template>
 	<DefaultPage
-		title="Clients"
-		button_text="Add Client"
+		title="Workflows"
+		button_text="Add workflow"
 		@onBtnClick="showCreate = true"
 	>
 		<div class="overflow-x-auto w-full">
@@ -33,7 +33,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
+											src="/tailwind-css-component-profile-2@56w.png"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -72,7 +72,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
+											src="/tailwind-css-component-profile-3@56w.png"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -109,7 +109,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
+											src="/tailwind-css-component-profile-4@56w.png"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -146,7 +146,7 @@
 								<div class="avatar">
 									<div class="mask mask-squircle w-12 h-12">
 										<img
-											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
+											src="/tailwind-css-component-profile-5@56w.png"
 											alt="Avatar Tailwind CSS Component"
 										/>
 									</div>
@@ -185,9 +185,20 @@
 			</table>
 		</div>
 	</DefaultPage>
-
-	<VueFinalModal v-model="showCreate" classes="modal-container">
-		<ClientCreate />
+	<VueFinalModal
+		v-model="showCreate"
+		classes="modal-container"
+		content-class="modal-content"
+	>
+		<div class="modal-content">
+			<button class="modal__close" @click="showCreate = false">
+				<XIcon class="h-6 w-6" aria-hidden="true" />
+			</button>
+			<WorkflowCreate
+				@create="handleCreate"
+				@close="showCreate = false"
+			/>
+		</div>
 	</VueFinalModal>
 </template>
 
@@ -195,8 +206,9 @@
 import { VueFinalModal } from "vue-final-modal";
 import { useRouter } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
-import ClientCreate from "./Create.vue";
+import WorkflowCreate from "./Create.vue";
 import { ref } from "vue";
+import { XIcon } from "@heroicons/vue/solid";
 
 const showCreate = ref(false);
 
@@ -208,5 +220,19 @@ const router = useRouter();
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+:deep .modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	max-height: 90%;
+	overflow-y: auto;
+	border-radius: 1rem;
+}
+:deep .modal__close {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
 }
 </style>

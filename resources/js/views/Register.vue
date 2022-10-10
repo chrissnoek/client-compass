@@ -42,7 +42,6 @@
 							required=""
 							class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							placeholder="First name"
-							rules="required"
 						/>
 						<ErrorMessage
 							name="first_name"
@@ -60,7 +59,6 @@
 							required=""
 							class="input input-bordered appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 							placeholder="Last name"
-							rules="required"
 						/>
 						<ErrorMessage
 							name="last_name"
@@ -107,34 +105,6 @@
 						class="text-red-500 text-sm"
 					/>
 				</div>
-				<!-- <div class="mb-2">
-					<label for="password" class="sr-only">Password</label>
-					<input
-						v-model="user.password"
-						id="password"
-						name="password"
-						type="password"
-						autocomplete="new-password"
-						required=""
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						placeholder="Password"
-					/>
-				</div>
-				<div class="mb-2">
-					<label for="password_confirmation" class="sr-only"
-						>Password Confirmation</label
-					>
-					<input
-						v-model="user.password_confirmation"
-						id="password_confirmation"
-						name="password_confirmation"
-						type="password"
-						autocomplete="new-password"
-						required=""
-						class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						placeholder="Password confirmation"
-					/>
-				</div> -->
 			</div>
 
 			<div

@@ -22,7 +22,7 @@ export const useWorkflowStore = defineStore("workflow", {
 			return httpClient
 				.post("/workflows", workflow)
 				.then((response) => {
-					console.log(response);
+					this.workflows.push(response.data.data);
 				})
 				.then((response) => {
 					return response;

@@ -12,20 +12,20 @@
 				class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
 			>
 				<thead
-					class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+					class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400"
 				>
 					<!-- head -->
 					<tr>
-						<th scope="col" class="py-3 px-6">
+						<th scope="col" class="p-4">
 							<label>
 								<input type="checkbox" class="checkbox" />
 							</label>
 						</th>
-						<th scope="col" class="py-3 px-6">Name</th>
-						<th scope="col" class="py-3 px-6">Job</th>
-						<th scope="col" class="py-3 px-6">Favorite Color</th>
-						<th scope="col" class="py-3 px-6">Favorite Color</th>
-						<th scope="col" class="py-3 px-6"></th>
+						<th scope="col" class="p-4">Name</th>
+						<th scope="col" class="p-4">Default for new users</th>
+						<th scope="col" class="p-4">Type</th>
+						<th scope="col" class="p-4">Tasks</th>
+						<th scope="col" class="p-4"></th>
 					</tr>
 				</thead>
 
@@ -36,14 +36,16 @@
 					/>
 				</tbody>
 				<!-- foot -->
-				<tfoot>
+				<tfoot
+					class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400"
+				>
 					<tr>
-						<th scope="col" class="py-3 px-6"></th>
-						<th scope="col" class="py-3 px-6">Name</th>
-						<th scope="col" class="py-3 px-6">Job</th>
-						<th scope="col" class="py-3 px-6">Favorite Color</th>
-						<th scope="col" class="py-3 px-6">Favorite Color</th>
-						<th scope="col" class="py-3 px-6"></th>
+						<th scope="col" class="p-4"></th>
+						<th scope="col" class="p-4">Name</th>
+						<th scope="col" class="p-4">Default for new users</th>
+						<th scope="col" class="p-4">Type</th>
+						<th scope="col" class="p-4">Tasks</th>
+						<th scope="col" class="p-4"></th>
 					</tr>
 				</tfoot>
 			</table>

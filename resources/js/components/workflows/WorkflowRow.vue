@@ -13,19 +13,19 @@ const props = defineProps({
 	</pre
 	> -->
 	<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-		<th class="py-4 px-6">
+		<th class="p-4">
 			<label>
 				<input type="checkbox" class="checkbox" />
 			</label>
 		</th>
-		<td class="py-4 px-6">
+		<td class="p-4">
 			<div class="flex items-center space-x-3">
 				<div>
 					<div class="font-bold">{{ workflow.title }}</div>
 				</div>
 			</div>
 		</td>
-		<td class="py-4 px-6">
+		<td class="p-4">
 			<CheckIcon
 				class="h-6 w-6 text-green-500"
 				aria-hidden="true"
@@ -33,9 +33,9 @@ const props = defineProps({
 			/>
 			<XIcon v-else class="h-6 w-6 text-red-500" aria-hidden="true" />
 		</td>
-		<td class="py-4 px-6">{{ workflow.type }}</td>
-		<td class="py-4 px-6">{{ workflow.tasks_count }}</td>
-		<th class="py-4 px-6">
+		<td class="p-4">{{ workflow.type }}</td>
+		<td class="p-4">{{ workflow.tasks.length }}</td>
+		<th class="p-4">
 			<button class="btn btn-ghost btn-xs">details</button>
 		</th>
 	</tr>

@@ -167,16 +167,11 @@ const schema = yup.object({
 const emit = defineEmits(["close"]);
 
 const createWorkflow = handleSubmit(() => {
-	console.log(workflow);
-	workflowStore.create(workflow).then((response) => {
-		console.log(response);
-		router.push({
-			name: "WorkflowShow",
-			params: { id: response.data.id },
-		});
+	workflowStore.create(workflow).then(() => {
+		workflow.title = "";
+		workflow.items = [];
+		emit("close");
 	});
-
-	emit("close");
 });
 </script>
 

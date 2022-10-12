@@ -26,7 +26,7 @@ class StoreWorkflowRequest extends FormRequest
 		return [
 			'title' => 'required|string',
 			'default' => 'required|boolean',
-			'type' => 'required|in:daily,custom',
+			'type' => 'required|in:daily,custom,once',
 			'items' => 'required|array',
 			'items.*.title' => 'required|string',
 			'items.*.description' => 'nullable|string',

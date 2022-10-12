@@ -21,7 +21,7 @@ class WorkflowResource extends JsonResource
 			'type' => $this->type,
 			'created_at' => $this->created_at,
 			'updated_at' => $this->updated_at,
-			'tasks_count' => $this->tasks_count,
+			'tasks' => $this->tasks,
 		];;
 	}
 }

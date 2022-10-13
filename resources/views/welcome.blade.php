@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html data-theme="emerald" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
 	<meta charset="utf-8">
@@ -9,6 +9,7 @@
 
 	<!-- Fonts -->
 	<link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+	<script src="https://unpkg.com/flowbite@latest/dist/flowbite.js"></script>
 
 	@vite(['resources/js/app.js'])
 </head>

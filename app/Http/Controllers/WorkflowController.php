@@ -19,7 +19,7 @@ class WorkflowController extends Controller
 	 */
 	public function index()
 	{
-		//
+		return WorkflowResource::collection(Workflow::withCount('tasks')->get());
 	}
 
 	/**

@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import "flowbite";
+</script>
 
 <template>
 	<router-view></router-view>

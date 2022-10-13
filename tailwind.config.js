@@ -6,10 +6,12 @@ module.exports = {
 		"./resources/**/*.blade.php",
 		"./resources/**/*.js",
 		"./resources/**/*.vue",
+		"./node_modules/flowbite/**/*.js",
 	],
 	plugins: [
 		require("@tailwindcss/forms"),
 		require("@tailwindcss/typography"),
 		require("daisyui"),
+		require("flowbite/plugin"),
 	],
 };

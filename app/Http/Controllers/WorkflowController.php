@@ -65,7 +65,7 @@ class WorkflowController extends Controller
 	 */
 	public function show(Workflow $workflow)
 	{
-		//
+		return new WorkflowResource($workflow);
 	}
 
 	/**

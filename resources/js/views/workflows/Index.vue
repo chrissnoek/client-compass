@@ -33,6 +33,7 @@
 					<WorkflowRow
 						v-for="(workflow, i) in workflowStore.workflows"
 						:workflow="workflow"
+						@delete="deleteWorkflow"
 					/>
 				</tbody>
 				<!-- foot -->
@@ -83,6 +84,12 @@ let workflowsLoaded = ref(false);
 const workflowStore = useWorkflowStore();
 
 const router = useRouter();
+
+const deleteWorkflow = (workflow) => {
+	workflowStore.delete(workflow).then((response) => {
+		// workflowsLoaded.value = true;
+	});
+};
 
 onMounted(() => {
 	workflowStore.fetch().then((response) => {

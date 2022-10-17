@@ -9,6 +9,12 @@ const props = defineProps({
 	workflow: Object,
 	index: Number,
 });
+
+const emit = defineEmits(["delete"]);
+
+const deleteWorkflow = () => {
+	emit("delete", props.workflow);
+};
 </script>
 
 <template>
@@ -52,7 +58,11 @@ const props = defineProps({
 				details
 			</button>
 			<button class="btn btn-danger btn-sm">
-				<TrashIcon class="h-6 w-6 text-white" aria-hidden="true" />
+				<TrashIcon
+					@click="deleteWorkflow"
+					class="h-6 w-6 text-white"
+					aria-hidden="true"
+				/>
 			</button>
 		</th>
 	</tr>

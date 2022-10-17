@@ -38,6 +38,18 @@ export const useWorkflowStore = defineStore("workflow", {
 					return response;
 				});
 		},
+		delete(workflow) {
+			return httpClient
+				.delete(`/workflows/${workflow.id}`, workflow)
+				.then((response) => {
+					this.workflows = this.workflows.filter(
+						(item) => item.id !== workflow.id
+					);
+				})
+				.then((response) => {
+					return response;
+				});
+		},
 		fetchById(id) {
 			return httpClient.get(`/workflows/${id}`).then((response) => {
 				console.log(response);

@@ -113,6 +113,8 @@ class WorkflowController extends Controller
 	 */
 	public function destroy(Workflow $workflow)
 	{
-		//
+		$workflow->delete();
+
+		return response()->noContent();
 	}
 }

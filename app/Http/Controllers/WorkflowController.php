@@ -30,7 +30,7 @@ class WorkflowController extends Controller
 	 */
 	public function store(StoreWorkflowRequest $request)
 	{
-		$validated = $request->safe();
+		$validated = $request->validated();
 
 		$user = Auth::user();
 
@@ -65,7 +65,7 @@ class WorkflowController extends Controller
 	 */
 	public function show(Workflow $workflow)
 	{
-		//
+		return new WorkflowResource($workflow);
 	}
 
 	/**
@@ -77,7 +77,32 @@ class WorkflowController extends Controller
 	 */
 	public function update(UpdateWorkflowRequest $request, Workflow $workflow)
 	{
-		//
+		// dd($workflow);
+		$validated = $request->validated();
+
+		$workflow->title = $validated['title'];
+		$workflow->default = $validated['default'];
+		$workflow->type = $validated['type'];
+		$workflow->save();
+
+		Task::where('workflow_id', $workflow->id)->delete();
+
+		$user = Auth::user();
+
+		foreach ($validated['tasks'] as $key => $value) {
+			$task = new Task;
+
+			DB::transaction(function () use ($workflow, $task, $value, $user) {
+				$task->title = $value['title'];
+				$task->description = $value['description'];
+				$task->workflow_id = $workflow->id;
+				$task->tenant_id = $user->tenant_id;
+
+				$task->save();
+			});
+		}
+
+		return new WorkflowResource($workflow);
 	}
 
 	/**

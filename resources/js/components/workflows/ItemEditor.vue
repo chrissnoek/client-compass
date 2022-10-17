@@ -5,20 +5,20 @@ import { TrashIcon, PlusIcon } from "@heroicons/vue/solid";
 import { ref } from "vue";
 
 const props = defineProps({
-	item: Object,
+	task: Object,
 	index: Number,
 });
 
 const emit = defineEmits(["change", "deleteItem"]);
 
 const deleteThis = () => {
-	emit("deleteItem", props.item);
+	emit("deleteItem", props.task);
 };
 
 const descOpen = ref(false);
 
 const changeItem = () => {
-	emit("change", props.item);
+	emit("change", props.task);
 };
 </script>
 <template>
@@ -27,7 +27,7 @@ const changeItem = () => {
 			<input
 				type="text"
 				@input="changeItem"
-				v-model="item.title"
+				v-model="task.title"
 				class="input input-bordered w-full my-1"
 			/>
 			<div class="flex items-center">
@@ -43,15 +43,15 @@ const changeItem = () => {
 		<div
 			class="flex items-center p-1 hover:bg-gray-200 rounded cursor-pointer"
 			@click="descOpen = true"
-			v-if="!descOpen"
+			v-if="!descOpen && !task.description"
 		>
 			<PlusIcon class="h-4 w-4 mr-1" aria-hidden="true" />
 			<p class="font-bold text-sm leading-none">Add task description</p>
 		</div>
 		<QuillEditor
-			v-if="descOpen"
+			v-if="descOpen || task.description"
 			theme="snow"
-			v-model:content="item.description"
+			v-model:content="task.description"
 			contentType="html"
 			:toolbar="['link', 'bold', 'italic']"
 			class=""

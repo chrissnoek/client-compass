@@ -28,15 +28,33 @@ export const useWorkflowStore = defineStore("workflow", {
 					return response;
 				});
 		},
-		fetchById(id) {
+		update(workflow) {
 			return httpClient
-				.get(`/workflows/${id}`)
+				.put(`/workflows/${workflow.id}`, workflow)
 				.then((response) => {
-					console.log(response);
+					this.workflows.push(response.data.data);
 				})
 				.then((response) => {
 					return response;
 				});
+		},
+		fetchById(id) {
+			return httpClient.get(`/workflows/${id}`).then((response) => {
+				console.log(response);
+				// check if there is already a workflow in store with this is
+				const index = this.workflows.findIndex(
+					(item) => item.id === id
+				);
+				// if so, replace this index
+				if (index !== -1) {
+					this.workflows[index] = response.data.data;
+				} else {
+					// it not, add it to the store
+					this.workflows.push(response.data.data);
+				}
+
+				return response.data.data;
+			});
 		},
 	},
 });

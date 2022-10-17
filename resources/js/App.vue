@@ -1,5 +1,12 @@
 <script setup>
 import "flowbite";
+import { onMounted } from "vue";
+
+onMounted(() => {
+	axios
+		.get("http://client-compass.test/sanctum/csrf-cookie")
+		.then((response) => {});
+});
 </script>
 
 <template>

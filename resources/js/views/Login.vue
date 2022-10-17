@@ -172,10 +172,4 @@ const login = handleSubmit(() => {
 				: e.response.data.error;
 		});
 });
-
-onMounted(() => {
-	axios
-		.get("http://client-compass.test/sanctum/csrf-cookie")
-		.then((response) => {});
-});
 </script>

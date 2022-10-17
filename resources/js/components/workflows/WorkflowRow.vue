@@ -1,6 +1,9 @@
 <script setup>
 // import { CheckIcon, XIcon, TrashIcon } from "@heroicons/vue/solid";
 import { CheckIcon, XIcon, TrashIcon } from "@heroicons/vue/outline";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const props = defineProps({
 	workflow: Object,
@@ -37,7 +40,17 @@ const props = defineProps({
 		<td class="p-4">{{ workflow.type }}</td>
 		<td class="p-4">{{ workflow.tasks.length }}</td>
 		<th class="p-4 flex items-center gap-3.5">
-			<button class="btn btn-secondary btn-sm">details</button>
+			<button
+				@click="
+					router.push({
+						name: 'WorkflowShow',
+						params: { id: workflow.id },
+					})
+				"
+				class="btn btn-secondary btn-sm"
+			>
+				details
+			</button>
 			<button class="btn btn-danger btn-sm">
 				<TrashIcon class="h-6 w-6 text-white" aria-hidden="true" />
 			</button>

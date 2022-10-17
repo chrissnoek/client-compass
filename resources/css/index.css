@@ -5,3 +5,8 @@
 [type="radio"]:checked {
 	background-image: none;
 }
+
+::root,
+.btn {
+	--btn-text-case: lowercase;
+}

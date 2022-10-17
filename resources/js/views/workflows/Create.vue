@@ -67,13 +67,13 @@
 					<div class="grid grid-cols-6 gap-2 mb-6">
 						<div class="col-span-6">
 							<label class="label font-bold flex items-center">
-								Workflow items
+								Workflow tasks
 								<button
 									type="button"
 									@click="addItem()"
 									class="flex items-center ml-4 text-sm py-1 px-4 rounded text-white bg-gray-600 hover:bg-gray-700"
 								>
-									Add item
+									Add task
 									<PlusIcon
 										class="ml-1 h-4 w-4"
 										aria-hidden="true"
@@ -82,15 +82,15 @@
 							</label>
 							<div class="w-80">
 								<p
-									v-if="!workflow.items.length"
+									v-if="!workflow.tasks.length"
 									class="text-gray-600 text-sm"
 								>
-									You don't have any items in this workflow
+									You don't have any tasks in this workflow
 									yet
 								</p>
-								<div v-for="(item, index) in workflow.items">
+								<div v-for="(task, index) in workflow.tasks">
 									<ItemEditor
-										:item="item"
+										:task="task"
 										:index="index"
 										@change="itemChange"
 										@addItem="addItem"
@@ -130,12 +130,12 @@ const workflowStore = useWorkflowStore();
 const workflow = reactive({
 	title: "",
 	default: true,
-	items: [],
+	tasks: [],
 	type: "daily",
 });
 
 const addItem = () => {
-	workflow.items.push({
+	workflow.tasks.push({
 		id: uuidv4(),
 		title: "",
 		description: "",
@@ -143,17 +143,17 @@ const addItem = () => {
 };
 
 const deleteItem = (deletedItem) => {
-	workflow.items = workflow.items.filter((item) => {
+	workflow.tasks = workflow.tasks.filter((item) => {
 		return item !== deletedItem;
 	});
 };
 
 const itemChange = (changedItem) => {
 	console.log(changedItem);
-	const _items = [...workflow.items];
-	let changeItem = _items.filter((item) => item === changedItem);
+	const _tasks = [...workflow.tasks];
+	let changeItem = _tasks.filter((item) => item === changedItem);
 	changeItem = changedItem;
-	workflow.items = _items;
+	workflow.tasks = _tasks;
 };
 
 const toggleCheckbox = (value) => {
@@ -169,7 +169,7 @@ const emit = defineEmits(["close"]);
 const createWorkflow = handleSubmit(() => {
 	workflowStore.create(workflow).then(() => {
 		workflow.title = "";
-		workflow.items = [];
+		workflow.tasks = [];
 		emit("close");
 	});
 });

@@ -28,6 +28,16 @@ export const useWorkflowStore = defineStore("workflow", {
 					return response;
 				});
 		},
+		update(workflow) {
+			return httpClient
+				.put(`/workflows/${workflow.id}`, workflow)
+				.then((response) => {
+					this.workflows.push(response.data.data);
+				})
+				.then((response) => {
+					return response;
+				});
+		},
 		fetchById(id) {
 			return httpClient.get(`/workflows/${id}`).then((response) => {
 				console.log(response);

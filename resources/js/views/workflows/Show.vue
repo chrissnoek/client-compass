@@ -28,15 +28,11 @@ const schema = yup.object({
 });
 
 const updateWorkflow = handleSubmit(() => {
-	workflowStore.create(workflow).then(() => {
-		workflow.title = "";
-		workflow.items = [];
-		emit("close");
-	});
+	workflowStore.update(state.workflow).then(() => {});
 });
 
 const addItem = () => {
-	workflow.items.push({
+	workflow.tasks.push({
 		id: uuidv4(),
 		title: "",
 		description: "",
@@ -44,17 +40,19 @@ const addItem = () => {
 };
 
 const deleteItem = (deletedItem) => {
-	workflow.items = workflow.items.filter((item) => {
+	state.workflow.tasks = state.workflow.tasks.filter((item) => {
 		return item !== deletedItem;
 	});
 };
 
 const itemChange = (changedItem) => {
 	console.log(changedItem);
-	const _items = [...workflow.items];
-	let changeItem = _items.filter((item) => item === changedItem);
+	const _tasks = [...state.workflow.tasks];
+	let changeItem = _tasks.filter((item) => item === changedItem);
 	changeItem = changedItem;
-	workflow.items = _items;
+	console.log(_tasks);
+	// state.workflow.tasks = _tasks;
+	Object.assign(state.workflow.tasks, _tasks);
 };
 
 onMounted(() => {
@@ -147,13 +145,13 @@ onMounted(() => {
 				<div class="grid grid-cols-6 gap-2 mb-6">
 					<div class="col-span-6">
 						<label class="label font-bold flex items-center">
-							Workflow items
+							Workflow tasks
 							<button
 								type="button"
 								@click="addItem()"
 								class="flex items-center ml-4 text-sm py-1 px-4 rounded text-white bg-gray-600 hover:bg-gray-700"
 							>
-								Add item
+								Add task
 								<PlusIcon
 									class="ml-1 h-4 w-4"
 									aria-hidden="true"
@@ -165,14 +163,13 @@ onMounted(() => {
 								v-if="!state.workflow.tasks.length"
 								class="text-gray-600 text-sm"
 							>
-								You don't have any items in this workflow yet
+								You don't have any tasks in this workflow yet
 							</p>
-							<div v-for="(item, index) in state.workflow.tasks">
+							<div v-for="(task, index) in state.workflow.tasks">
 								<ItemEditor
-									:item="item"
+									:task="task"
 									:index="index"
 									@change="itemChange"
-									@addItem="addItem"
 									@deleteItem="deleteItem"
 								></ItemEditor>
 							</div>
@@ -182,9 +179,9 @@ onMounted(() => {
 
 				<button
 					type="submit"
-					class="btn btn-primary inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+					class="btn btn-primary inline-flex justify-center normal-case rounded-lg border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 				>
-					Create
+					Update
 				</button>
 			</Form>
 		</div>

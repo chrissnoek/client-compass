@@ -40,7 +40,7 @@ class WorkflowController extends Controller
 		$workflow->type = $validated['type'];
 		$workflow->tenant_id = $user->tenant_id;
 
-		foreach ($validated['items'] as $key => $value) {
+		foreach ($validated['tasks'] as $key => $value) {
 			$task = new Task;
 
 			DB::transaction(function () use ($workflow, $task, $value, $user) {

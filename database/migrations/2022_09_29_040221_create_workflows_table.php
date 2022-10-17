@@ -20,7 +20,7 @@ return new class extends Migration
 			$table->boolean('default')->default(0);
 			$table->enum('type', ['daily', 'custom'])->default('daily');
 			// add a column with relation to id in tenants
-			$table->foreignId('tenant_id')->nullable()->constrained('tenants');
+			$table->foreignId('tenant_id')->nullable()->constrained('tenants')->cascadeOnDelete();
 
 
 			$table->index('tenant_id');

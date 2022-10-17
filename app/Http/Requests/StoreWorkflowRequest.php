@@ -27,9 +27,9 @@ class StoreWorkflowRequest extends FormRequest
 			'title' => 'required|string',
 			'default' => 'required|boolean',
 			'type' => 'required|in:daily,custom,once',
-			'items' => 'required|array',
-			'items.*.title' => 'required|string',
-			'items.*.description' => 'nullable|string',
+			'tasks' => 'required|array',
+			'tasks.*.title' => 'required|string',
+			'tasks.*.description' => 'nullable|string',
 		];
 	}
 }

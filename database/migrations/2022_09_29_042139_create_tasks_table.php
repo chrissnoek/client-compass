@@ -18,9 +18,9 @@ return new class extends Migration
 			$table->timestamps();
 			$table->string('title');
 			// add a column with relation to id in tenants
-			$table->foreignId('workflow_id')->nullable()->constrained('workflows');
+			$table->foreignId('workflow_id')->nullable()->constrained('workflows')->cascadeOnDelete();
 			// add a column with relation to id in tenants
-			$table->foreignId('tenant_id')->nullable()->constrained('tenants');
+			$table->foreignId('tenant_id')->nullable()->constrained('tenants')->cascadeOnDelete();
 
 
 			$table->index('workflow_id');

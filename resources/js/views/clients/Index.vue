@@ -4,7 +4,7 @@
 		button_text="Add Client"
 		@onBtnClick="showCreate = true"
 	>
-		<div class="overflow-x-auto w-full">
+		<div class="overflow-x-auto w-full" v-if="true">
 			<table class="table w-full">
 				<!-- head -->
 				<thead>
@@ -183,6 +183,12 @@
 					</tr>
 				</tfoot>
 			</table>
+		</div>
+		<div class="text-center" v-else>
+			<p class="text-2xl mb-4">There are no workflows yet</p>
+			<button @click="showCreate = true" class="btn btn-primary mx-auto">
+				Create one now!
+			</button>
 		</div>
 	</DefaultPage>
 

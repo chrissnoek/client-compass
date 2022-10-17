@@ -6,7 +6,7 @@
 	>
 		<div
 			class="overflow-x-auto relative shadow-md sm:rounded-lg"
-			v-if="workflowsLoaded"
+			v-if="workflowsLoaded && workflowStore.workflows.length"
 		>
 			<table
 				class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -50,6 +50,12 @@
 					</tr>
 				</tfoot>
 			</table>
+		</div>
+		<div class="text-center" v-else>
+			<p class="text-2xl mb-4">There are no workflows yet</p>
+			<button @click="showCreate = true" class="btn btn-primary mx-auto">
+				Create one now!
+			</button>
 		</div>
 	</DefaultPage>
 	<VueFinalModal

@@ -81,19 +81,23 @@ import { useRouter } from "vue-router";
 import DefaultPage from "../../components/DefaultPage.vue";
 import WorkflowCreate from "./Create.vue";
 import WorkflowRow from "../../components/workflows/WorkflowRow.vue";
-import { onMounted, ref } from "vue";
+import { inject, onMounted, ref } from "vue";
 import { XIcon } from "@heroicons/vue/solid";
 import { useWorkflowStore } from "../../store/workflow";
 
 const showCreate = ref(false);
 let workflowsLoaded = ref(false);
 const workflowStore = useWorkflowStore();
+const emitter = inject("emitter");
 
 const router = useRouter();
 
 const deleteWorkflow = (workflow) => {
 	workflowStore.delete(workflow).then((response) => {
-		// workflowsLoaded.value = true;
+		emitter.emit("flash", {
+			message: "Succesfully deleted!",
+			type: "success",
+		});
 	});
 };
 

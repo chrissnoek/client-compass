@@ -1,11 +1,11 @@
 import axios from "axios";
-import store from "./store";
+
 const httpClient = axios.create({
 	baseURL: "http://client-compass.test/api",
 });
 
 httpClient.interceptors.request.use((config) => {
-	config.headers.Authorization = `Bearer ${store.state.user.token}`;
+	config.headers.Authorization = `Bearer ${sessionStorage.getItem("TOKEN")}`;
 	return config;
 });
 

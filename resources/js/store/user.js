@@ -15,6 +15,12 @@ export const useUserStore = defineStore("user", {
 		},
 	},
 	actions: {
+		fetch() {
+			return httpClient.get("/user").then(({ data }) => {
+				this.user.data = data;
+				return data;
+			});
+		},
 		register(user) {
 			return httpClient.post("/register", user).then(({ data }) => {
 				return data;

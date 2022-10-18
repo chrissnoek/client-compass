@@ -67,10 +67,7 @@
 			<button class="modal__close" @click="showCreate = false">
 				<XIcon class="h-6 w-6" aria-hidden="true" />
 			</button>
-			<WorkflowCreate
-				@create="handleCreate"
-				@close="showCreate = false"
-			/>
+			<WorkflowCreate @close="showCreate = false" />
 		</div>
 	</VueFinalModal>
 </template>

@@ -22,14 +22,19 @@
 				</router-link>
 			</p>
 		</div>
-		<Form class="mt-8" @submit="login" :validation-schema="schema">
+		<Form
+			class="mt-8"
+			action=""
+			@submit="login"
+			:validation-schema="schema"
+		>
 			<!-- <div
 				v-if="errorMsg"
 				class="flex items-center justify-between py-3 px-5 bg-red-500 text-white rounded mb-4"
 			>
 				{{ errorMsg }}
 				<span @click="errorMsg = ''">
-					<XIcon
+					<XMarkIcon
 						class="h-6 w-6 cursor-pointer rounded-full p-1 transition-colors hover:bg-[rgba(0,0,0,0.2)]"
 						aria-hidden="true"
 					/>
@@ -131,7 +136,7 @@
 </template>
 
 <script setup>
-import { LockClosedIcon, XIcon } from "@heroicons/vue/solid";
+import { LockClosedIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";

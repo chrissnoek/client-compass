@@ -140,7 +140,7 @@
 </template>
 
 <script setup>
-import { LockClosedIcon } from "@heroicons/vue/solid";
+import { LockClosedIcon } from "@heroicons/vue/24/outline";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "../store/user";

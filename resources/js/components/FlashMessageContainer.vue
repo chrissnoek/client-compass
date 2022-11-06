@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div v-for="message in state.messages" :key="message.id">
+	<div class="z-10" v-for="message in state.messages" :key="message.id">
 		<flash-message :alert="message" @delete="removeFlash"></flash-message>
 	</div>
 </template>

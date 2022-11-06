@@ -18,7 +18,7 @@ onMounted(() => {
 	<div
 		role="alert"
 		:class="[
-			'p-4 text-sm rounded-lg mb-4',
+			'p-4 text-sm rounded-lg mt-4',
 			{
 				'text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800':
 					props.alert.type === 'info',

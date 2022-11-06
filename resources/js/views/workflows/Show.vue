@@ -7,7 +7,7 @@ import { useWorkflowStore } from "../../store/workflow";
 import ItemEditor from "../../components/workflows/ItemEditor.vue";
 import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import * as yup from "yup";
-import { PlusIcon } from "@heroicons/vue/solid";
+import { PlusIcon } from "@heroicons/vue/24/outline";
 
 const router = useRouter();
 const route = useRoute();

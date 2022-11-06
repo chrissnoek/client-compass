@@ -120,7 +120,7 @@ import * as yup from "yup";
 import { useRouter } from "vue-router";
 import { useWorkflowStore } from "../../store/workflow";
 import { reactive } from "vue";
-import { PlusIcon } from "@heroicons/vue/solid";
+import { PlusIcon } from "@heroicons/vue/24/outline";
 import ItemEditor from "../../components/workflows/ItemEditor.vue";
 
 const { handleSubmit, isSubmitting } = useForm();
@@ -167,7 +167,9 @@ const schema = yup.object({
 const emit = defineEmits(["close"]);
 
 const createWorkflow = handleSubmit(() => {
+	console.log("createworkflow");
 	workflowStore.create(workflow).then(() => {
+		console.log("created");
 		workflow.title = "";
 		workflow.tasks = [];
 		emit("close");

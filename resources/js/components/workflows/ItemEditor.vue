@@ -1,7 +1,7 @@
 <script setup>
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import { TrashIcon, PlusIcon } from "@heroicons/vue/solid";
+import { TrashIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { ref } from "vue";
 
 const props = defineProps({

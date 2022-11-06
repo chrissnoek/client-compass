@@ -25,7 +25,3 @@
 		</div>
 	</section>
 </template>
-
-<script setup>
-import { LockClosedIcon, XIcon } from "@heroicons/vue/solid";
-</script>

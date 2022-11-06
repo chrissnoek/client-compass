@@ -150,7 +150,7 @@
 </template>
 
 <script setup>
-import { LockClosedIcon, ShieldCheckIcon } from "@heroicons/vue/outline";
+import { LockClosedIcon, ShieldCheckIcon } from "@heroicons/vue/24/outline";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../store/user";
 import { ref, computed, reactive } from "vue";
